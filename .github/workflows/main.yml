@@ -1,0 +1,31 @@
+name: Built and Deploy to another repo
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        working-directory: src/frontend
+        run: npm install
+
+      - name: Build the application
+        working-directory: src/frontend
+        run: npm run build
+        
+      - name: Deploy to GitHub Pages Repo
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: src/frontend/dist
+          destination_repo: energydrinksjunkie/energydrinksjunkie.github.io
+          user_name: energydrinksjunkie
+          user_email: dragan.miljkovic29@gmail.com
