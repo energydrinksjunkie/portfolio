@@ -26,6 +26,8 @@ jobs:
         with:
           personal_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           publish_dir: src/frontend/dist
+          publish_branch: master
           external_repository: energydrinksjunkie/energydrinksjunkie.github.io
           user_name: energydrinksjunkie
           user_email: dragan.miljkovic29@gmail.com
+          
