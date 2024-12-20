@@ -24,7 +24,7 @@ jobs:
       - name: Deploy to GitHub Pages Repo
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          personal_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           publish_dir: src/frontend/dist
           external_repository: energydrinksjunkie/energydrinksjunkie.github.io
           user_name: energydrinksjunkie
