@@ -26,6 +26,6 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: src/frontend/dist
-          destination_repo: energydrinksjunkie/energydrinksjunkie.github.io
+          external_repository: energydrinksjunkie/energydrinksjunkie.github.io
           user_name: energydrinksjunkie
           user_email: dragan.miljkovic29@gmail.com
