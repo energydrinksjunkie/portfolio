@@ -55,8 +55,6 @@ const Model: React.FC<JSX.IntrinsicElements['group']> = (props) => {
       />
       <mesh
         name="Cube003_1"
-        castShadow
-        receiveShadow
         geometry={nodes.Cube003_1.geometry}
         material={isLoaded && textureRef.current ? new THREE.MeshBasicMaterial({ map: textureRef.current }) : new THREE.MeshBasicMaterial({ color: 'blue' })}
       />

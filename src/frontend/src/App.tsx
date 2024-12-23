@@ -8,7 +8,7 @@ function App() {
   return (
     <Canvas>
       <ambientLight />
-      <Monitor />
+      <Monitor scale={[5,5,5]} position={[0,-1.5,0]} />
       <OrbitControls />
     </Canvas>
   )
