@@ -1,13 +1,16 @@
 import './App.css'
+import { Canvas } from '@react-three/fiber'
+import { OrbitControls } from '@react-three/drei'
+import Monitor from './models/Monitor'
 
 function App() {
 
   return (
-    <>
-      <h1>Dragan's Portfolio</h1>
-      <h2>Under construction!</h2>
-      <p>Check back soon!</p>
-    </>
+    <Canvas>
+      <ambientLight />
+      <Monitor />
+      <OrbitControls />
+    </Canvas>
   )
 }
 
