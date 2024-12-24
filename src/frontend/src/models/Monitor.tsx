@@ -2,7 +2,10 @@ import * as THREE from 'three';
 import { useGLTF } from '@react-three/drei';
 import { useThree } from '@react-three/fiber';
 import { GLTF } from 'three-stdlib';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import html2canvas from 'html2canvas';
+import ReactDOM from 'react-dom';
+import Test from '../components/Test';
 
 type GLTFResult = GLTF & {
     nodes: {
@@ -19,11 +22,30 @@ const Model: React.FC<JSX.IntrinsicElements['group']> = (props) => {
     const { nodes, materials } = useGLTF('/monitor.glb') as GLTFResult;
     const { camera } = useThree();
     const groupRef = useRef<THREE.Group>();
+    const textureRef = useRef<THREE.Texture>();
+    const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect(() => {
-        console.log('Camera position:', camera.position);
-        console.log('Camera rotation:', camera.rotation);
-    }, [camera]);
+        const loadHtmlAsTexture = async () => {
+          const container = document.createElement('div');
+          document.body.appendChild(container);
+          ReactDOM.render(<Test />, container);
+    
+          const element = document.getElementById('html-content');
+          if (element) {
+    
+            await new Promise((resolve) => setTimeout(resolve, 100)); // Wait for re-render
+    
+            const canvas = await html2canvas(element);
+            const texture = new THREE.CanvasTexture(canvas);
+            textureRef.current = texture;
+            setIsLoaded(true);
+            document.body.removeChild(container);
+          }
+        };
+    
+        loadHtmlAsTexture();
+      }, []);
 
     const handlePointerOver = () => {
         console.log('Mouse is over the model');
@@ -46,7 +68,7 @@ const Model: React.FC<JSX.IntrinsicElements['group']> = (props) => {
                 />
                 <mesh
                     geometry={nodes.Cube003_1.geometry}
-                    material={materials['Material.009']}
+                    material={isLoaded && textureRef.current ? new THREE.MeshBasicMaterial({ map: textureRef.current }) : new THREE.MeshBasicMaterial({ color: 'blue' })}
                 />
             </group>
         </group>
