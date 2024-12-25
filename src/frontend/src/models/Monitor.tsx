@@ -1,6 +1,5 @@
 import * as THREE from 'three';
 import { useGLTF } from '@react-three/drei';
-import { useThree } from '@react-three/fiber';
 import { GLTF } from 'three-stdlib';
 import { useEffect, useRef, useState } from 'react';
 import html2canvas from 'html2canvas';
@@ -21,8 +20,7 @@ type GLTFResult = GLTF & {
 
 const Model: React.FC<JSX.IntrinsicElements['group']> = (props) => {
     const { nodes, materials } = useGLTF('/monitor.glb') as GLTFResult;
-    const { camera } = useThree();
-    const groupRef = useRef<THREE.Group>();
+    const groupRef: any = useRef<THREE.Group>();
     const textureRef = useRef<THREE.Texture>();
     const [isLoaded, setIsLoaded] = useState(false);
     const [outlineAlpha, setOutlineAlpha] = useState(0);
@@ -61,7 +59,7 @@ const Model: React.FC<JSX.IntrinsicElements['group']> = (props) => {
     return (
         <group {...props}>
             <group
-                ref={groupRef}
+                ref ={groupRef}
                 onPointerOver={handlePointerOver}
                 onPointerOut={handlePointerOut}
             >

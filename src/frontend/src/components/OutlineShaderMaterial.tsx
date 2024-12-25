@@ -1,3 +1,5 @@
+import * as THREE from 'three';
+
 export const OutlineShaderMaterial = {
     uniforms: {
         outlineColor: { value: new THREE.Color('white') },
