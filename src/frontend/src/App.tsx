@@ -7,7 +7,7 @@ import Keyboard from './models/Keyboard'
 import Chair from './models/Chair'
 import { useState } from 'react'
 
-function CameraController({ cameraPosition, cameraTarget }) {
+function CameraController({ cameraPosition, cameraTarget }: { cameraPosition: [number, number, number], cameraTarget: [number, number, number] }) {
   useFrame(({ camera }) => {
     camera.position.lerp({ x: cameraPosition[0], y: cameraPosition[1], z: cameraPosition[2] }, 0.1);
     camera.lookAt(cameraTarget[0], cameraTarget[1], cameraTarget[2]);
