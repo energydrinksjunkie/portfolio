@@ -4,15 +4,15 @@ export const OutlineShaderMaterial = {
     uniforms: {
         outlineColor: { value: new THREE.Color('white') },
         alpha: { value: 0 },
-        growAmount: { value: 0.05 }, // Dodata vrednost za translaciju
+        growAmount: { value: 0.01 },
     },
     vertexShader: `
         varying vec3 vNormal;
         uniform float growAmount;
 
         void main() {
-            vec3 transformed = position + normal * growAmount; // Pomeraj prema normalama
-            vNormal = -normal; // Inverzija normalnih vektora
+            vec3 transformed = position + normal * growAmount;
+            vNormal = -normal;
             gl_Position = projectionMatrix * modelViewMatrix * vec4(transformed, 1.0);
         }
     `,
