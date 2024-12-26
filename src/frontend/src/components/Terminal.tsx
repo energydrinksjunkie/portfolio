@@ -19,7 +19,7 @@ const Terminal = () => {
         case 'help':
           setOutput((prevOutput) => [
             ...prevOutput, input,
-            'Available commands:\n- help: Show this help message\n- hello: Greet the user\n- ktkrvc: Greet the Kiti',
+            'Available commands:\n- help: Show this help message\n- hello: Greet the user\n- ktkrvc: Greet the Kiti\n- clear: Clear the terminal',
           ]);
           break;
         case 'hello':
@@ -27,6 +27,9 @@ const Terminal = () => {
           break;
         case 'ktkrvc':
             setOutput((prevOutput) => [...prevOutput, input, 'Hello, Kiti!']);
+            break;
+        case 'clear':
+            setOutput(['']);
             break;
         default:
           setOutput((prevOutput) => [...prevOutput, input, `Command not found: ${command}\n- Type 'help' for a list of available commands`]);
