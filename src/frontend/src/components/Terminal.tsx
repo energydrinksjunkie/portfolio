@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 
 const Terminal = () => {
-  const [output, setOutput] = useState<string[]>([]);
+  const [output, setOutput] = useState<string[]>(['Welcome to the terminal!']);
   const [input, setInput] = useState<string>('> ');
   const inputRef = useRef<HTMLInputElement>(null);
 
