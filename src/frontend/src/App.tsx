@@ -45,11 +45,14 @@ function App() {
       gl={{ preserveDrawingBuffer: true }}
       camera={{ position: [-0.3, 1.1, 0.8], fov: 75 }}
       onPointerMissed={handlePointerMissed}
+      shadows
     >
-      <ambientLight />
+      <directionalLight position={[-1,2,1]} intensity={3} castShadow 
+      shadow-mapSize={[1024, 1024]} 
+      />
       <CameraController cameraPosition={cameraPosition} cameraTarget={cameraTarget} />
-      <Monitor scale={.8} position={[-.3,0.815,0]} rotation={[0,0.3,0]} onClick={handleMonitorClick} />
-      <Desk/>
+      <Monitor castShadow receiveShadow scale={.8} position={[-.3,0.815,0]} rotation={[0,0.3,0]} onClick={handleMonitorClick} />
+      <Desk receiveShadow castShadow />
       <Keyboard rotation={[0,0.1,0]} position={[-.3,0.808,.32]} onClick={handleKeyboardClick} />
       <Chair position={[-.3,0,.7]} rotation={[0,3,0]}/>
       <OrbitControls 
