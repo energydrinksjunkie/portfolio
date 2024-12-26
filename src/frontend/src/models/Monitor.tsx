@@ -102,4 +102,6 @@ const Model: React.FC<JSX.IntrinsicElements['group']> = (props) => {
     );
 };
 
+useGLTF.preload('/monitor.glb');
+
 export default Model;
