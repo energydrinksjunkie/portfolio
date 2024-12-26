@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 
 const Terminal = () => {
   const [output, setOutput] = useState<string[]>(['Welcome to the terminal!']);
-  const [input, setInput] = useState<string>('> ');
+  const [input, setInput] = useState<string>('C:\> ');
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -18,18 +18,21 @@ const Terminal = () => {
       switch (command) {
         case 'help':
           setOutput((prevOutput) => [
-            ...prevOutput,
-            'Available commands:\n- help: Show this help message\n- hello: Greet the user',
+            ...prevOutput, input,
+            'Available commands:\n- help: Show this help message\n- hello: Greet the user\n- ktkrvc: Greet the Kiti',
           ]);
           break;
         case 'hello':
-          setOutput((prevOutput) => [...prevOutput, 'Hello, User!']);
+          setOutput((prevOutput) => [...prevOutput, input, 'Hello, User!']);
           break;
+        case 'ktkrvc':
+            setOutput((prevOutput) => [...prevOutput, input, 'Hello, Kiti!']);
+            break;
         default:
-          setOutput((prevOutput) => [...prevOutput, `Command not found: ${command}`]);
+          setOutput((prevOutput) => [...prevOutput, input, `Command not found: ${command}\n- Type 'help' for a list of available commands`]);
       }
 
-      setInput('> ');
+      setInput('C:\> ');
     }
   };
 
@@ -41,6 +44,7 @@ const Terminal = () => {
   return (
     <div
       style={{
+        overflow: 'auto',
         backgroundColor: 'black',
         color: 'white',
         padding: '10px',
@@ -51,7 +55,7 @@ const Terminal = () => {
       }}
       onClick={handleTerminalClick}
     >
-      <div style={{ whiteSpace: 'pre-wrap', marginBottom: '10px' }}>
+      <div style={{ whiteSpace: 'pre-wrap'}}>
         {output.map((line, index) => (
           <div key={index}>{line}</div>
         ))}
