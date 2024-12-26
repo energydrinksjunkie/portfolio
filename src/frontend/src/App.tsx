@@ -5,6 +5,8 @@ import Monitor from './models/Monitor'
 import Desk from './models/Desk'
 import Keyboard from './models/Keyboard'
 import Chair from './models/Chair'
+import Room from './models/Room'
+import Blinds from './models/Blinds'
 import { useState } from 'react'
 
 function CameraController({ cameraPosition, cameraTarget }: { cameraPosition: [number, number, number], cameraTarget: [number, number, number] }) {
@@ -47,14 +49,22 @@ function App() {
       onPointerMissed={handlePointerMissed}
       shadows
     >
-      <directionalLight position={[-1,2,1]} intensity={3} castShadow 
-      shadow-mapSize={[1024, 1024]} 
+      <ambientLight intensity={0.2} />
+      <directionalLight 
+      color={0xaaaaff}
+      position={[-2,.6,1.1]}
+      intensity={3} 
+      castShadow 
+      shadow-mapSize={[2048, 2048]} 
+      shadow-bias={-0.0001}
       />
       <CameraController cameraPosition={cameraPosition} cameraTarget={cameraTarget} />
       <Monitor castShadow receiveShadow scale={.8} position={[-.3,0.815,0]} rotation={[0,0.3,0]} onClick={handleMonitorClick} />
       <Desk receiveShadow castShadow />
       <Keyboard rotation={[0,0.1,0]} position={[-.3,0.808,.32]} onClick={handleKeyboardClick} />
       <Chair position={[-.3,0,.7]} rotation={[0,3,0]}/>
+      <Room />
+      <Blinds />
       <OrbitControls 
         target={cameraTarget} 
         minPolarAngle={Math.PI/10} 
