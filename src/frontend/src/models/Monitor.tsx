@@ -1,11 +1,10 @@
 import * as THREE from 'three';
-import { useGLTF } from '@react-three/drei';
+import { Html, useGLTF } from '@react-three/drei';
 import { GLTF } from 'three-stdlib';
-import { useEffect, useRef, useState } from 'react';
-import html2canvas from 'html2canvas';
-import ReactDOM from 'react-dom';
-import Test from '../components/Test';
+import { Suspense, useRef, useState } from 'react';
 import { OutlineShaderMaterial } from '../components/OutlineShaderMaterial';
+import React from 'react';
+const Terminal = React.lazy(() => import('../components/Terminal'));
 
 type GLTFResult = GLTF & {
     nodes: {
@@ -21,30 +20,7 @@ type GLTFResult = GLTF & {
 const Model: React.FC<JSX.IntrinsicElements['group']> = (props) => {
     const { nodes, materials } = useGLTF('/monitor.glb') as GLTFResult;
     const groupRef: any = useRef<THREE.Group>();
-    const textureRef = useRef<THREE.Texture>();
-    const [isLoaded, setIsLoaded] = useState(false);
     const [outlineAlpha, setOutlineAlpha] = useState(0);
-
-    useEffect(() => {
-        const loadHtmlAsTexture = async () => {
-            const container = document.createElement('div');
-            document.body.appendChild(container);
-            ReactDOM.render(<Test />, container);
-
-            const element = document.getElementById('html-content');
-            if (element) {
-                await new Promise((resolve) => setTimeout(resolve, 100)); // Wait for re-render
-
-                const canvas = await html2canvas(element);
-                const texture = new THREE.CanvasTexture(canvas);
-                textureRef.current = texture;
-                setIsLoaded(true);
-                document.body.removeChild(container);
-            }
-        };
-
-        loadHtmlAsTexture();
-    }, []);
 
     const handlePointerOver = () => {
         console.log('Mouse is over the model');
@@ -71,12 +47,13 @@ const Model: React.FC<JSX.IntrinsicElements['group']> = (props) => {
                 />
                 <mesh
                     geometry={nodes.Cube003_1.geometry}
-                    material={
-                        isLoaded && textureRef.current
-                            ? new THREE.MeshBasicMaterial({ map: textureRef.current })
-                            : new THREE.MeshBasicMaterial({ color: 'blue' })
-                    }
+                    material={new THREE.MeshBasicMaterial({ transparent: true, opacity: 0 })}
                 />
+                <Html transform rotation={[-0.03,0,0]} position={[0,0.34,.18]} scale={.028} >
+                <Suspense fallback={<div>Loading Terminal...</div>}>
+            <Terminal />
+          </Suspense>
+                </Html>
                 {/* Outline mesh */}
                 <mesh
                     geometry={nodes.Cube003_1.geometry}
