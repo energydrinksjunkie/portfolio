@@ -66,6 +66,8 @@ const Model: React.FC<JSX.IntrinsicElements['group']> = (props) => {
                 <mesh
                     geometry={nodes.Cube003.geometry}
                     material={materials.Material}
+                    castShadow
+                    receiveShadow
                 />
                 <mesh
                     geometry={nodes.Cube003_1.geometry}
@@ -101,5 +103,7 @@ const Model: React.FC<JSX.IntrinsicElements['group']> = (props) => {
         </group>
     );
 };
+
+useGLTF.preload('/monitor.glb');
 
 export default Model;
