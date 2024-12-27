@@ -12,9 +12,9 @@ const Terminal = () => {
   const handleCommand = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       e.preventDefault();
-
-      const command = input.trim().split(' ')[1].toLowerCase();
-
+        let command = '';
+      try {
+      command = input.trim().split(' ')[1].toLowerCase();
       switch (command) {
         case 'help':
           setOutput((prevOutput) => [
@@ -34,8 +34,11 @@ const Terminal = () => {
         default:
           setOutput((prevOutput) => [...prevOutput, input, `Command not found: ${command}\n- Type 'help' for a list of available commands`]);
       }
-
-      setInput('C:\> ');
+      } catch (error) {
+        setOutput((prevOutput) => [...prevOutput, input, `Command not found: ${command}\n- Type 'help' for a list of available commands`]);
+      } finally {
+        setInput('C:\> ');
+      }
     }
   };
 
