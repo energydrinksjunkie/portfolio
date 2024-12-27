@@ -59,7 +59,8 @@ function App() {
       shadow-bias={-0.0001}
       />
       <CameraController cameraPosition={cameraPosition} cameraTarget={cameraTarget} />
-      <Monitor castShadow receiveShadow scale={.8} position={[-.3,0.815,0]} rotation={[0,0.3,0]} onClick={handleMonitorClick} />
+      <Monitor 
+       castShadow receiveShadow scale={.8} position={[-.3,0.815,0]} rotation={[0,0.3,0]} onClick={handleMonitorClick} />
       <Desk receiveShadow castShadow />
       <Keyboard rotation={[0,0.1,0]} position={[-.3,0.808,.32]} onClick={handleKeyboardClick} />
       <Chair position={[-.3,0,.7]} rotation={[0,3,0]}/>

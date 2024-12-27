@@ -4,6 +4,7 @@ import { GLTF } from 'three-stdlib';
 import { Suspense, useRef, useState } from 'react';
 import { OutlineShaderMaterial } from '../components/OutlineShaderMaterial';
 import React from 'react';
+import { TerminalHandle } from '../components/Terminal';
 const Terminal = React.lazy(() => import('../components/Terminal'));
 
 type GLTFResult = GLTF & {
@@ -21,6 +22,7 @@ const Model: React.FC<JSX.IntrinsicElements['group']> = (props) => {
     const { nodes, materials } = useGLTF('/monitor.glb') as GLTFResult;
     const groupRef: any = useRef<THREE.Group>();
     const [outlineAlpha, setOutlineAlpha] = useState(0);
+    const terminalRef = useRef<TerminalHandle>(null);
 
     const handlePointerOver = () => {
         console.log('Mouse is over the model');
@@ -32,12 +34,17 @@ const Model: React.FC<JSX.IntrinsicElements['group']> = (props) => {
         setOutlineAlpha(0); // Set alpha to 0 when pointer is out
     };
 
+    const handleTerminalClick = () => {
+        terminalRef.current?.focusInput();
+    }
+
     return (
         <group {...props}>
             <group
                 ref ={groupRef}
                 onPointerOver={handlePointerOver}
                 onPointerOut={handlePointerOut}
+                onClick={handleTerminalClick}
             >
                 <mesh
                     geometry={nodes.Cube003.geometry}
@@ -49,9 +56,9 @@ const Model: React.FC<JSX.IntrinsicElements['group']> = (props) => {
                     geometry={nodes.Cube003_1.geometry}
                     material={new THREE.MeshBasicMaterial({ transparent: true, opacity: 0 })}
                 /> */}
-                <Html occlude={"blending"} transform rotation={[-0.03,0,0]} position={[0,0.332,.173]} scale={.0273} >
+                <Html style={{}} occlude={"blending"} transform rotation={[-0.03,0,0]} position={[0,0.332,.173]} scale={.0273} >
                 <Suspense fallback={<div>Loading Terminal...</div>}>
-            <Terminal />
+            <Terminal ref={terminalRef} />
           </Suspense>
                 </Html>
                 {/* Outline mesh */}
