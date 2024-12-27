@@ -52,11 +52,12 @@ const Model: React.FC<JSX.IntrinsicElements['group']> = (props) => {
                     castShadow
                     receiveShadow
                 />
-                {/* <mesh
+                <mesh
                     geometry={nodes.Cube003_1.geometry}
+                    position={[0, 0, 0.2]}
                     material={new THREE.MeshBasicMaterial({ transparent: true, opacity: 0 })}
-                /> */}
-                <Html style={{}} occlude={"blending"} transform rotation={[-0.03,0,0]} position={[0,0.332,.173]} scale={.0273} >
+                />
+                <Html style={{pointerEvents: 'none', userSelect: 'none'}} occlude={"blending"} transform rotation={[-0.03,0,0]} position={[0,0.332,.173]} scale={.0273} >
                 <Suspense fallback={<div>Loading Terminal...</div>}>
             <Terminal ref={terminalRef} />
           </Suspense>

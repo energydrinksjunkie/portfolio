@@ -6,7 +6,7 @@ export interface TerminalHandle {
 }
 
 const Terminal = React.forwardRef<TerminalHandle>((_, ref) => {
-  const [output, setOutput] = useState<string[]>(['Welcome to the terminal!']);
+  const [output, setOutput] = useState<string[]>(['Welcome to the portfolio terminal!','Type "help" for a list of available commands']);
   const [input, setInput] = useState<string>('C:\\> ');
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -42,20 +42,20 @@ const Terminal = React.forwardRef<TerminalHandle>((_, ref) => {
             setOutput((prevOutput) => [...prevOutput, input, 'Hello, Kiti!']);
             break;
           case 'clear':
-            setOutput(['']);
+            setOutput([]);
             break;
           default:
             setOutput((prevOutput) => [
               ...prevOutput,
               input,
-              `Command not found: ${command}\n- Type 'help' for a list of available commands`,
+              `Command not found: ${command}\n- Type "help" for a list of available commands`,
             ]);
         }
       } catch (error) {
         setOutput((prevOutput) => [
           ...prevOutput,
           input,
-          `Command not found: ${command}\n- Type 'help' for a list of available commands`,
+          `Command not found: ${command}\n- Type "help" for a list of available commands`,
         ]);
       } finally {
         setInput('C:\\> ');
