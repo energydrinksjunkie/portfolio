@@ -1,10 +1,11 @@
 import * as THREE from 'three';
 import { Html, useGLTF } from '@react-three/drei';
 import { GLTF } from 'three-stdlib';
-import { Suspense, useRef, useState } from 'react';
+import { Suspense, useEffect, useRef, useState } from 'react';
 import { OutlineShaderMaterial } from '../components/OutlineShaderMaterial';
 import React from 'react';
 import { TerminalHandle } from '../components/Terminal';
+import { invalidate } from '@react-three/fiber';
 const Terminal = React.lazy(() => import('../components/Terminal'));
 
 type GLTFResult = GLTF & {
@@ -54,9 +55,9 @@ const Model: React.FC<JSX.IntrinsicElements['group']> = (props) => {
                 />
                 <mesh
                     geometry={nodes.Cube003_1.geometry}
-                    material={new THREE.MeshBasicMaterial({ transparent: true, opacity: 0 })}
+                    material={new THREE.MeshBasicMaterial({ transparent: false, opacity: 0 })}
                 />
-                <Html style={{pointerEvents: 'none', userSelect: 'none'}} occlude={"blending"} transform rotation={[-0.03,0,0]} position={[0,0.332,.173]} scale={.0273} >
+                <Html zIndexRange={[-1,-10]} style={{pointerEvents: 'none', userSelect: 'none'}} occlude={"blending"} transform rotation={[-0.03,0,0]} position={[0,0.332,.173]} scale={.0273} >
                 <Suspense fallback={<div>Loading Terminal...</div>}>
             <Terminal ref={terminalRef} />
           </Suspense>

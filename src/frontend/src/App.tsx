@@ -48,6 +48,7 @@ function App() {
       camera={{ position: [-0.3, 1.1, 0.8], fov: 75 }}
       onPointerMissed={handlePointerMissed}
       shadows
+      frameloop='demand'
     >
       <ambientLight intensity={0.2} />
       <directionalLight 
