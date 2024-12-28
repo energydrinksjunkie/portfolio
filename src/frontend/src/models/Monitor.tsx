@@ -1,11 +1,10 @@
 import * as THREE from 'three';
 import { Html, useGLTF } from '@react-three/drei';
 import { GLTF } from 'three-stdlib';
-import { Suspense, useEffect, useRef, useState } from 'react';
+import { Suspense, useRef, useState } from 'react';
 import { OutlineShaderMaterial } from '../components/OutlineShaderMaterial';
 import React from 'react';
 import { TerminalHandle } from '../components/Terminal';
-import { invalidate } from '@react-three/fiber';
 const Terminal = React.lazy(() => import('../components/Terminal'));
 
 type GLTFResult = GLTF & {
