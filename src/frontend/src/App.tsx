@@ -7,6 +7,7 @@ import Keyboard from './models/Keyboard'
 import Chair from './models/Chair'
 import Room from './models/Room'
 import Blinds from './models/Blinds'
+import Case from './models/Case'
 import { useState } from 'react'
 
 function CameraController({ cameraPosition, cameraTarget }: { cameraPosition: [number, number, number], cameraTarget: [number, number, number] }) {
@@ -23,8 +24,8 @@ function App() {
   const [isZoomedIn, setIsZoomedIn] = useState(false);
 
   const handleMonitorClick = () => {
-    setCameraPosition([-0.3, 1.1, 0.5]);
-    setCameraTarget([-0.3, 1, 0]);
+    setCameraPosition([-0.3, 1.2, 0.45]);
+    setCameraTarget([-0.4, 1.1, 0]);
     setIsZoomedIn(true);
   };
 
@@ -60,12 +61,12 @@ function App() {
       shadow-bias={-0.0001}
       />
       <CameraController cameraPosition={cameraPosition} cameraTarget={cameraTarget} />
-      <Monitor 
-       castShadow receiveShadow scale={.8} position={[-.3,0.815,0]} rotation={[0,0.3,0]} onClick={handleMonitorClick} />
-      <Desk receiveShadow castShadow />
-      <Keyboard rotation={[0,0.1,0]} position={[-.3,0.808,.32]} onClick={handleKeyboardClick} />
+      <Monitor scale={.7} position={[-.4,0.915,0]} rotation={[0,0.3,0]} onClick={handleMonitorClick} />
+      <Desk />
+      <Keyboard rotation={[0,0.1,0]} position={[-.35,0.808,.335]} onClick={handleKeyboardClick} />
       <Chair position={[-.3,0,.7]} rotation={[0,3,0]}/>
       <Room />
+      <Case position={[-.4,0.8,0]}  scale={.5} />
       <Blinds />
       <OrbitControls 
         target={cameraTarget} 
