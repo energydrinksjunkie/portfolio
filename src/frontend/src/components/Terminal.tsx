@@ -9,6 +9,14 @@ const Terminal = React.forwardRef<TerminalHandle>((_, ref) => {
   const [output, setOutput] = useState<string[]>(['Welcome to the portfolio terminal!','Type "help" for a list of available commands']);
   const [input, setInput] = useState<string>('C:\\> ');
   const inputRef = useRef<HTMLInputElement>(null);
+  const files = ['file1.txt', 'file2.txt', 'document.pdf']; // Files in current directory
+  
+  // Hashmap (object) for file contents
+  const fileContents: Record<string, string> = {
+    'file1.txt': 'This is the content of file1.txt. It contains some text.',
+    'file2.txt': 'This is file2.txt. Here you have some more content.',
+    'document.pdf': 'PDF content would be shown here, but it is simulated as text.',
+  };
 
   // Expose methods to the parent through the ref
   useImperativeHandle(ref, () => ({
@@ -25,14 +33,19 @@ const Terminal = React.forwardRef<TerminalHandle>((_, ref) => {
     if (e.key === 'Enter') {
       e.preventDefault();
       let command = '';
+      let args = '';
       try {
-        command = input.trim().split(' ')[1]?.toLowerCase() || '';
+        // Split command and arguments
+        const [_,cmd, ...rest] = input.trim().split(' ');
+        command = cmd.toLowerCase();
+        args = rest.join(' ');
+
         switch (command) {
           case 'help':
             setOutput((prevOutput) => [
               ...prevOutput,
               input,
-              'Available commands:\n- help: Show this help message\n- hello: Greet the user\n- ktkrvc: Greet the Kiti\n- clear: Clear the terminal',
+              'Available commands:\n- help: Show this help message\n- hello: Greet the user\n- ktkrvc: Greet the Kiti\n- clear: Clear the terminal\n- type <file>: Display the contents of a file\n- dir: List files in the current directory\n- whatsmyip: Show your public IP address',
             ]);
             break;
           case 'hello':
@@ -43,6 +56,57 @@ const Terminal = React.forwardRef<TerminalHandle>((_, ref) => {
             break;
           case 'clear':
             setOutput([]);
+            break;
+          case 'dir':
+            setOutput((prevOutput) => [
+              ...prevOutput,
+              input,
+              `${files.join('\n')}`,
+            ]);
+            break;
+          case 'type':
+            if (args && files.includes(args)) {
+              // Check if the file exists in the hashmap
+              const content = fileContents[args];
+              if (content) {
+                setOutput((prevOutput) => [
+                  ...prevOutput,
+                  input,
+                  content,
+                ]);
+              } else {
+                setOutput((prevOutput) => [
+                  ...prevOutput,
+                  input,
+                  `Could not find content for file: ${args}`,
+                ]);
+              }
+            } else {
+              setOutput((prevOutput) => [
+                ...prevOutput,
+                input,
+                `File not found: ${args}`,
+              ]);
+            }
+            break;
+            case 'whatsmyip':
+            // Fetch public IP address from an external API
+            fetch('https://api.ipify.org?format=json')
+              .then((response) => response.json())
+              .then((data) => {
+                setOutput((prevOutput) => [
+                  ...prevOutput,
+                  input,
+                  `Your public IP address is: ${data.ip}`,
+                ]);
+              })
+              .catch(() => {
+                setOutput((prevOutput) => [
+                  ...prevOutput,
+                  input,
+                  'Could not retrieve IP address.',
+                ]);
+              });
             break;
           default:
             setOutput((prevOutput) => [
@@ -58,7 +122,7 @@ const Terminal = React.forwardRef<TerminalHandle>((_, ref) => {
           `Command not found: ${command}\n- Type "help" for a list of available commands`,
         ]);
       } finally {
-        setInput('C:\\> ');
+        setInput('C:\> ');
       }
     }
   };
