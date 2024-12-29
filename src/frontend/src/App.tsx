@@ -10,6 +10,7 @@ import Room from './models/Room'
 import Blinds from './models/Blinds'
 import Case from './models/Case'
 import Printer from './models/Printer'
+import Notebook from './models/Notebook'
 
 function CameraController({ cameraPosition, cameraTarget }: { cameraPosition: [number, number, number], cameraTarget: [number, number, number] }) {
   useFrame(({ camera }) => {
@@ -69,6 +70,7 @@ function App() {
       <Room />
       <Case position={[-.4,0.8,0]}  scale={.5} />
       <Printer position={[0.3,0.8,-0.15]} scale={.8} />
+      <Notebook position={[0.15,0.82,0.3]} scale={.7} rotation={[-1.57,0,-0.3]} />
       <Blinds />
       <OrbitControls 
         target={cameraTarget} 
