@@ -24,23 +24,45 @@ function App() {
   const [cameraTarget, setCameraTarget] = useState<[number, number, number]>([-0.2, 1, 0]);
   const [cameraPosition, setCameraPosition] = useState<[number, number, number]>([-0.3, 1.1, 0.8]);
   const [isZoomedIn, setIsZoomedIn] = useState(false);
+  const [notebookPosition, setNotebookPosition] = useState<[number, number, number]>([0.15, 0.82, 0.3]);
+  const [notebookRotation, setNotebookRotation] = useState<[number, number, number]>([-1.57, 0, -0.3]);
+
+  const handleNotebookClick = () => {
+    if (!isZoomedIn) {
+      setNotebookPosition([-0.3, 1.1, 0.6]); // Nova pozicija notebook-a
+      setNotebookRotation([0, 0, 0]); // Nova rotacija notebook-a
+      setIsZoomedIn(true);
+    } else {
+      handlePointerMissed();
+    }
+  };
 
   const handleMonitorClick = () => {
-    setCameraPosition([-0.3, 1.2, 0.45]);
-    setCameraTarget([-0.4, 1.1, 0]);
-    setIsZoomedIn(true);
+    if(!isZoomedIn) {
+      setCameraPosition([-0.3, 1.2, 0.45]);
+      setCameraTarget([-0.4, 1.1, 0]);
+      setIsZoomedIn(true);
+    } else {
+      handlePointerMissed();
+    }
   };
 
   const handleKeyboardClick = () => {
-    setCameraPosition([-0.3, 1.1, 0.3]);
-    setCameraTarget([-0.3, 0.8, 0.3]);
-    setIsZoomedIn(true);
-  };
+    if(!isZoomedIn) {
+      setCameraPosition([-0.3, 1.1, 0.3]);
+      setCameraTarget([-0.3, 0.8, 0.3]);
+      setIsZoomedIn(true);
+    } else {
+      handlePointerMissed();
+    }
+  }; 
 
   const handlePointerMissed = () => {
     if (isZoomedIn) {
       setCameraPosition([-0.3, 1.1, 0.8]);
       setCameraTarget([-0.3, 1, 0]);
+      setNotebookPosition([0.15, 0.82, 0.3]);
+      setNotebookRotation([-1.57, 0, -0.3]); 
       setIsZoomedIn(false);
     }
   };
@@ -70,7 +92,12 @@ function App() {
       <Room />
       <Case position={[-.4,0.8,0]}  scale={.5} />
       <Printer position={[0.3,0.8,-0.15]} scale={.8} />
-      <Notebook position={[0.15,0.82,0.3]} scale={.7} rotation={[-1.57,0,-0.3]} />
+      <Notebook 
+        position={notebookPosition} 
+        scale={0.7} 
+        rotation={notebookRotation} 
+        onClick={handleNotebookClick}
+      />
       <Blinds />
       <OrbitControls 
         target={cameraTarget} 
