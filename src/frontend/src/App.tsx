@@ -1,4 +1,5 @@
 import './App.css'
+import { useState } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { OrbitControls } from '@react-three/drei'
 import Monitor from './models/Monitor'
@@ -8,7 +9,7 @@ import Chair from './models/Chair'
 import Room from './models/Room'
 import Blinds from './models/Blinds'
 import Case from './models/Case'
-import { useState } from 'react'
+import Printer from './models/Printer'
 
 function CameraController({ cameraPosition, cameraTarget }: { cameraPosition: [number, number, number], cameraTarget: [number, number, number] }) {
   useFrame(({ camera }) => {
@@ -63,10 +64,11 @@ function App() {
       <CameraController cameraPosition={cameraPosition} cameraTarget={cameraTarget} />
       <Monitor scale={.7} position={[-.4,0.915,0]} rotation={[0,0.3,0]} onClick={handleMonitorClick} />
       <Desk />
-      <Keyboard rotation={[0,0.1,0]} position={[-.35,0.808,.335]} onClick={handleKeyboardClick} />
+      <Keyboard rotation={[0,0.1,0]} position={[-.35,0.808,.33]} onClick={handleKeyboardClick} />
       <Chair position={[-.3,0,.7]} rotation={[0,3,0]}/>
       <Room />
       <Case position={[-.4,0.8,0]}  scale={.5} />
+      <Printer position={[0.3,0.8,-0.15]} scale={.8} />
       <Blinds />
       <OrbitControls 
         target={cameraTarget} 
