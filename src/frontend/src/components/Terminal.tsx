@@ -1,4 +1,4 @@
-import React, { useState, useRef, useImperativeHandle } from 'react';
+import React, { useState, useRef, useImperativeHandle, useEffect } from 'react';
 
 // Define the props and ref types
 export interface TerminalHandle {
@@ -9,6 +9,7 @@ const Terminal = React.forwardRef<TerminalHandle>((_, ref) => {
   const [output, setOutput] = useState<string[]>(['Welcome to the portfolio terminal!','Type "help" for a list of available commands']);
   const [input, setInput] = useState<string>('C:\\> ');
   const inputRef = useRef<HTMLInputElement>(null);
+  const outputRef = useRef<HTMLDivElement>(null);
   const files = ['file1.txt', 'file2.txt', 'document.pdf']; // Files in current directory
   
   // Hashmap (object) for file contents
@@ -18,6 +19,12 @@ const Terminal = React.forwardRef<TerminalHandle>((_, ref) => {
     'document.pdf': 'PDF content would be shown here, but it is simulated as text.',
   };
 
+  useEffect(() => {
+    if (outputRef.current) {
+      outputRef.current.scrollTop = outputRef.current.scrollHeight;
+    }
+  }, [output]);
+
   // Expose methods to the parent through the ref
   useImperativeHandle(ref, () => ({
     focusInput: () => {
@@ -26,7 +33,11 @@ const Terminal = React.forwardRef<TerminalHandle>((_, ref) => {
   }));
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInput(e.target.value);
+    if (!e.target.value.startsWith('C:\\> ')) {
+      setInput('C:\\> ');
+    } else {
+      setInput(e.target.value);
+    }
   };
 
   const handleCommand = (e: React.KeyboardEvent) => {
@@ -122,7 +133,7 @@ const Terminal = React.forwardRef<TerminalHandle>((_, ref) => {
           `Command not found: ${command}\n- Type "help" for a list of available commands`,
         ]);
       } finally {
-        setInput('C:\> ');
+        setInput('C:\\> ');
       }
     }
   };
@@ -144,6 +155,7 @@ const Terminal = React.forwardRef<TerminalHandle>((_, ref) => {
         cursor: 'text',
       }}
       onClick={handleTerminalClick}
+      ref={outputRef}
     >
       <div style={{ whiteSpace: 'pre-wrap' }}>
         {output.map((line, index) => (
@@ -162,8 +174,9 @@ const Terminal = React.forwardRef<TerminalHandle>((_, ref) => {
           border: 'none',
           width: '100%',
           outline: 'none',
+          marginBottom: '0.5rem'
         }}
-        autoFocus
+        // autoFocus
       />
     </div>
   );
